@@ -26,7 +26,7 @@ export const config: Options.Testrunner = {
 
 
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
    
     bail: 0,
 
@@ -57,7 +57,7 @@ export const config: Options.Testrunner = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '',
+        tags: '@cucumber-practice',
         // <number> timeout for step definitions
         timeout: 60000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
@@ -141,8 +141,13 @@ export const config: Options.Testrunner = {
      * @param {ITestCaseHookParameter} world    world object containing information on pickle and test step
      * @param {object}                 context  Cucumber World object
      */
-    // beforeScenario: function (world, context) {
-    // },
+    beforeScenario: function (world, context) {
+        let worldArray = world.pickle.name.split(/:/);
+        //@ts-ignore
+        if(worldArray.length > 0) browser.options.testid = worldArray[0];
+        //@ts-ignore
+        if(!browser.options.testid) throw Error(`Error obtaining Test ID for the current scenario: ${world.pickle.name}`);
+    },
     /**
      *
      * Runs before a Cucumber Step.

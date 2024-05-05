@@ -8,3 +8,6 @@ reports/
 #environment variables
 .env
 *.env
+
+#report_generation
+allure-results/

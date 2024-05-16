@@ -31,8 +31,20 @@ class Page {
         }
     }
 
-    async explicitPause(pausePeriod:number):Promise<void>{
+    async selectDropdownOption(webElement: WebdriverIO.Element, optionText: string): Promise<void> {
+        if (!webElement) throw Error('No WebDriver Element provided to be interacted with');
+        await webElement.waitUntil(async () => {
+            return (await webElement.isClickable());
+        }, { timeout: 10000, timeoutMsg: "Could not locate element within the DOM", interval: 1000 });
+        await webElement.selectByVisibleText(optionText);
+    }
+
+    async explicitPause(pausePeriod: number): Promise<void> {
         await browser.pause(pausePeriod);
+    }
+
+    async refreshBrowserPage(): Promise<void> {
+        await browser.refresh();
     }
 
 }

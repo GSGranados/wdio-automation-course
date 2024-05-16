@@ -1,17 +1,8 @@
-import { After, AfterAll, AfterStep, Before } from "@wdio/cucumber-framework";
+import { BeforeAll } from "@wdio/cucumber-framework";
+import homePage from "../../page-objects/automation-exercise/home.page.js";
 
-Before(async function () {
-        await browser.url('https://www.saucedemo.com/');
-        await browser.maximizeWindow();
-        const usernameInput = await $('input[data-test="username"]');
-        await usernameInput.setValue('standard_user');
-        const passwordInput = await $('#password');
-        await passwordInput.setValue('secret_sauce');
-        const loginButton = await $('#login-button');
-        await loginButton.click();
-        await browser.pause(3000);
-        const shoppingCartIcon = await $('a[data-test="shopping-cart-link"]');
-        expect(shoppingCartIcon.elementId).toBeTruthy()
-        const webPageUrl = await browser.getUrl();
-        expect(webPageUrl).not.toEqual("https://www.saucedemo.com/")
+BeforeAll(async function () {
+    await homePage.navigateToURL('https://automationexercise.com/');
+    //assertion to be added later
 });
+

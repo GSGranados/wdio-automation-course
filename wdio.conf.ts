@@ -1,4 +1,8 @@
-import type { Options } from '@wdio/types'
+import type { Options } from '@wdio/types';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const headlessMode = process.env.HEADLESS_MODE
 export const config: Options.Testrunner = {
 
     runner: 'local',
@@ -18,16 +22,87 @@ export const config: Options.Testrunner = {
         // 'path/to/excluded/files'
     ],
 
-    maxInstances: 1,
+    maxInstances: process.env.PARALLEL_MODE === "TRUE" ? 2 : 1,
 
-    capabilities: [{
-        browserName: 'chrome'
-    }],
+    capabilities: process.env.PARALLEL_MODE === "TRUE" ? [
+        {
+            browserName: 'chrome',
+            acceptInsecureCerts: true,
+            timeouts: { implicit: 30000, pageLoad: 2000, script: 30000 },
+            "goog:chromeOptions": {
+                args: headlessMode === "TRUE" ? [
+                    "--window-size=1920,1080",
+                    "--enable-automation",
+                    "--disable-gpu",
+                    "--no-sandbox",
+                    "disable-infobars",
+                    "disable-popup-blocking",
+                    "disable-notifications",
+                    "--headless"
+                ] :
+                    ["--window-size=1920,1080",
+                        "--enable-automation",
+                        "--disable-gpu",
+                        "--no-sandbox",
+                        "disable-infobars",
+                        "disable-popup-blocking",
+                        "disable-notifications"
+                    ]
+            }
+        },
+        {
+            browserName: 'firefox',
+            acceptInsecureCerts: true,
+            timeouts: { implicit: 30000, pageLoad: 2000, script: 30000 },
+            'moz:firefoxOptions': {
+                args: headlessMode === "TRUE" ? ['-disable-gpu', '-headless'] : ['-disable-gpu']
+            }
+        }
+
+    ] :
+        process.env.IS_CHROME === "TRUE" ?
+            [
+                {
+                    browserName: 'chrome',
+                    acceptInsecureCerts: true,
+                    timeouts: { implicit: 30000, pageLoad: 2000, script: 30000 },
+                    "goog:chromeOptions": {
+                        args: headlessMode === "TRUE" ? [
+                            "--window-size=1920,1080",
+                            "--enable-automation",
+                            "--disable-gpu",
+                            "--no-sandbox",
+                            "disable-infobars",
+                            "disable-popup-blocking",
+                            "disable-notifications",
+                            "--headless"
+                        ] :
+                            ["--window-size=1920,1080",
+                                "--enable-automation",
+                                "--disable-gpu",
+                                "--no-sandbox",
+                                "disable-infobars",
+                                "disable-popup-blocking",
+                                "disable-notifications"
+                            ]
+                    }
+                },
+            ] :
+            [
+                {
+                    browserName: 'firefox',
+                    acceptInsecureCerts: true,
+                    timeouts: { implicit: 30000, pageLoad: 2000, script: 30000 },
+                    'moz:firefoxOptions': {
+                        args: headlessMode === "TRUE" ? ['-disable-gpu', '-headless'] : ['-disable-gpu']
+                    }
+                }
+            ],
 
 
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: 'error',
-   
+
     bail: 0,
 
     waitforTimeout: 10000,
@@ -144,9 +219,9 @@ export const config: Options.Testrunner = {
     beforeScenario: function (world, context) {
         let worldArray = world.pickle.name.split(/:/);
         //@ts-ignore
-        if(worldArray.length > 0) browser.options.testid = worldArray[0];
+        if (worldArray.length > 0) browser.options.testid = worldArray[0];
         //@ts-ignore
-        if(!browser.options.testid) throw Error(`Error obtaining Test ID for the current scenario: ${world.pickle.name}`);
+        if (!browser.options.testid) throw Error(`Error obtaining Test ID for the current scenario: ${world.pickle.name}`);
     },
     /**
      *

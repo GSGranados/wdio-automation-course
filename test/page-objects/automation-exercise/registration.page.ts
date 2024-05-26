@@ -1,6 +1,7 @@
 import Page from "../Page.js";
 import { $ } from '@wdio/globals';
-
+import constants from '../../../data/constants.json' assert {type:"json"}
+import { expect } from "chai";
 class RegistrationPage extends Page {
     constructor() {
         super();
@@ -29,6 +30,9 @@ class RegistrationPage extends Page {
     get registration_page_address_zip_code_input() { return $('input#zipcode') }
     get registration_page_address_mobile_number_input() { return $('input#mobile_number') }
     get registration_page_create_account_button() { return $('button[data-qa="create-account"]') }
+
+    //Assertion locators
+    get registration_page_account_information_text(){return $('h2.title b')}
 
 
     async selectAccountTitle(isMrTitle: boolean): Promise<void> {
@@ -117,6 +121,11 @@ class RegistrationPage extends Page {
     async clickOnCreateAccountButton(): Promise<void> {
         await this.clickOnElement(await this.registration_page_create_account_button);
 
+    }
+
+    async isAccountInformationTextVisible():Promise<void>{
+        const textObtained = await (await this.registration_page_account_information_text).getText();
+        expect(textObtained).to.be.equal(constants.assertionTexts.accountInformation, `${constants.errorMessages.chaiExpectErrorMessage} ${textObtained} - ${constants.assertionTexts.accountInformation}`);
     }
 
 }

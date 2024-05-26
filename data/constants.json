@@ -5,6 +5,15 @@
     },
     "errorMessages":{
         "waitUntilErrorMessage": "We could not locate the Element within the DOM",
-        "guardClauseError": "No Web Element Provided"
+        "guardClauseError": "No Web Element Provided",
+        "chaiExpectErrorMessage": "Expected Value is not the same as actual Value"
+    },
+    "assertionTexts":{
+        "accountInformation": "ENTER ACCOUNT INFORMATION",
+        "accountCreated": "ACCOUNT CREATED!",
+        "loggedInAsUsername": "Test Username",
+        "accountDeleted": "ACCOUNT DELETED!",
+        "loginIntoAccount": "Login to your account",
+        "signupText": "New User Signup!"
     }
 }

@@ -10,7 +10,7 @@ When(/^I click on the signup button$/, async function () {
 });
 
 Then(/^I validate the New User Sign up message is visible$/, async function () {
-    //assertion to be added later
+    await loginPage.isSignUpTextVisible();
 });
 
 When(/^I provide my username and email$/, async function (userData: any) {
@@ -24,7 +24,7 @@ When(/^I click on the Signup Button$/, async function () {
 });
 
 Then(/^the ENTER ACCOUNT INFORMATION should be visible$/, async function () {
-    // assertion to be added later
+    await registrationPage.isAccountInformationTextVisible();
 });
 
 Given(/^I provide my personal information$/, async function (personalData: any) {
@@ -64,7 +64,7 @@ When(/^I click on the create account button$/, async function () {
 });
 
 Then(/^I should see the account created success message$/, async function () {
-    // assertion to be added later
+    await confirmationPage.isAccountCreatedTextVisible()
 });
 
 Given(/^I click on the continue button$/, async function () {
@@ -72,7 +72,7 @@ Given(/^I click on the continue button$/, async function () {
 });
 
 Then(/^I Validate the Logged in as username message is being visible$/, async function () {
-    //assertion to be added later
+    await homePage.isLoggedInAsUsernameVisible()
 });
 
 When(/^I click on the Logout button$/, async function () {
@@ -80,7 +80,7 @@ When(/^I click on the Logout button$/, async function () {
 });
 
 Then(/^I Validate the Login to your account message is being visible$/, async function () {
-    // assertion to be added later
+    await loginPage.isLoginIntoYourAccountVisible()
 });
 
 When(/^I provide my email and password$/, async function (loginData:any) {
@@ -98,5 +98,5 @@ When(/^I click on the Delete Account Button$/, async function () {
 });
 
 Then(/^I Validate that ACCOUNT DELETED! message is being visible$/, async function () {
-    // assertion to be added later on
+    await confirmationPage.isAccountDeletedTextVisible()
 });

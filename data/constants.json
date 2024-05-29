@@ -1,0 +1,23 @@
+{
+    "timers":{
+        "timeoutTimer":10000,
+        "intevalTimer":1000
+    },
+    "errorMessages":{
+        "waitUntilErrorMessage": "We could not locate the Element within the DOM",
+        "guardClauseError": "No Web Element Provided",
+        "chaiExpectErrorMessage": "Expected Value is not the same as actual Value"
+    },
+    "testscriptsConstatns":{
+        "dummyUsername": "automation-exercise-dumy",
+        "dummyDomain": "@mail.com"
+    },
+    "assertionTexts":{
+        "accountInformation": "ENTER ACCOUNT INFORMATION",
+        "accountCreated": "ACCOUNT CREATED!",
+        "loggedInAsUsername": "Test Username",
+        "accountDeleted": "ACCOUNT DELETED!",
+        "loginIntoAccount": "Login to your account",
+        "signupText": "New User Signup!"
+    }
+}

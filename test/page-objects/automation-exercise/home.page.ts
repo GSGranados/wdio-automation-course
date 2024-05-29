@@ -2,6 +2,8 @@ import Page from "../Page.js";
 import { $ } from '@wdio/globals'
 import constants from '../../../data/constants.json' assert {type: "json"};
 import { expect } from "chai";
+import reporter from "../../helper/reporter.js";
+import executeWebAction from "../../helper/error-handling.js";
 class HomePage extends Page {
 
     constructor() {
@@ -14,23 +16,34 @@ class HomePage extends Page {
     get home_page_login_as_username_message() { return $('.nav.navbar-nav li:nth-child(10) a'); }
     get home_page_logout_button() { return $('.nav.navbar-nav li:nth-child(4) a'); }
     get home_page_delete_account_button() { return $('.nav.navbar-nav li:nth-child(5) a'); }
-    get home_page_logged_in_as_username(){return $('ul.nav i.fa-user + b')}
+    get home_page_logged_in_as_username() { return $('ul.nav i.fa-user + b') }
 
-    async clickOnSignupButton(): Promise<void> {
-        await this.clickOnElement(await this.home_page_signup_button);
+    async clickOnSignupButton(testid: string): Promise<void> {
+        const reportingMessage = "Click on Sign Up button";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.home_page_signup_button);
     }
 
-    async clickOnDeleteAccountButton(): Promise<void> {
-        await this.clickOnElement(await this.home_page_delete_account_button);
+    async clickOnDeleteAccountButton(testid: string): Promise<void> {
+        const reportingMessage = "Click on Delete Account Button";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.home_page_delete_account_button)
     }
 
-    async clickOnLogoutButton(): Promise<void> {
-        await this.clickOnElement(await this.home_page_logout_button);
+    async clickOnLogoutButton(testid: string): Promise<void> {
+        const reportingMessage = "Click on Logout Button";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.home_page_logout_button);
     }
 
-    async isLoggedInAsUsernameVisible():Promise<void>{
-        const textObtained = await (await this.home_page_logged_in_as_username).getText();
-        expect(textObtained).to.be.equal(constants.assertionTexts.loggedInAsUsername,`${constants.errorMessages.chaiExpectErrorMessage} ${textObtained} - ${constants.assertionTexts.loggedInAsUsername}`);
+    async isLoggedInAsUsernameVisible(testid: string): Promise<void> {
+        const reportingMessage = "Logged in as Username text is visible"
+        try {
+            const textObtained = await (await this.home_page_logged_in_as_username).getText();
+            expect(textObtained).to.be.equal(constants.assertionTexts.loggedInAsUsername, `${constants.errorMessages.chaiExpectErrorMessage} ${textObtained} - ${constants.assertionTexts.loggedInAsUsername}`);
+            reporter.addStep(testid, 'info', reportingMessage);
+        } catch (error) {
+            error.message = `${reportingMessage} - ${error.message}`
+            reporter.addStep(testid, 'error', reportingMessage);
+            throw error;
+        }
     }
 
 }

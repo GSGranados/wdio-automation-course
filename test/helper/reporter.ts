@@ -13,7 +13,7 @@ function addStep(
     if (!arr.includes(logLevel)) throw Error('Invalid Log Level');
     try {
         //@ts-ignore
-        allure.addStep(msg, {}, `${loglevel === "info" ? "passed" : "failed"}`);
+        allure.addStep(msg, {}, `${logLevel === "info" ? "passed" : "failed"}`);
     } catch (error) {
         throw Error(`Error reporting the step, ${error}`)
     }

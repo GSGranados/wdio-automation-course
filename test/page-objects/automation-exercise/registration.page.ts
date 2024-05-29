@@ -1,7 +1,9 @@
 import Page from "../Page.js";
 import { $ } from '@wdio/globals';
-import constants from '../../../data/constants.json' assert {type:"json"}
+import constants from '../../../data/constants.json' assert {type: "json"}
 import { expect } from "chai";
+import executeWebAction from "../../helper/error-handling.js";
+import reporter from "../../helper/reporter.js";
 class RegistrationPage extends Page {
     constructor() {
         super();
@@ -32,100 +34,108 @@ class RegistrationPage extends Page {
     get registration_page_create_account_button() { return $('button[data-qa="create-account"]') }
 
     //Assertion locators
-    get registration_page_account_information_text(){return $('h2.title b')}
+    get registration_page_account_information_text() { return $('h2.title b') }
 
 
-    async selectAccountTitle(isMrTitle: boolean): Promise<void> {
-        await this.clickOnElement(isMrTitle ? await this.registration_page_mr_title_radio : await this.registration_page_mrs_title_radio);
-
+    async selectAccountTitle(testid: string, isMrTitle: boolean): Promise<void> {
+        const reportingMessage = "Click on Title Radio Button";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, isMrTitle ? await this.registration_page_mr_title_radio : await this.registration_page_mrs_title_radio);
     }
 
-    async enterSingupName(registrationName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_name_input, registrationName);
-
+    async enterSingupName(testid: string, registrationName: string): Promise<void> {
+        const reportingMessage = `${registrationName} set up as Registration Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_name_input, registrationName);
     }
 
-    async enterSingupPassword(password: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_password_input, password);
-
+    async enterSingupPassword(testid: string, password: string): Promise<void> {
+        const reportingMessage = `${password} set up as Registration Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_password_input, password);
     }
 
     //DD-MM-YYYY
-    async enterRegistrationDateOfBirth(registrationDate: string): Promise<void> {
+    async enterRegistrationDateOfBirth(testid: string, registrationDate: string): Promise<void> {
         const [registrationDay, registrationMonth, registrationYear] = registrationDate.split('-');
-        await this.selectDropdownOption(await this.registration_page_days_select, registrationDay);
-        await this.selectDropdownOption(await this.registration_page_month_select, registrationMonth);
-        await this.selectDropdownOption(await this.registration_page_year_select, registrationYear);
-
+        await executeWebAction(this.selectDropdownOption, testid, "Registration Day selected", await this.registration_page_days_select, registrationDay);
+        await executeWebAction(this.selectDropdownOption, testid, "Registration Month selected", await this.registration_page_month_select, registrationMonth);
+        await executeWebAction(this.selectDropdownOption, testid, "Registration Year selected", await this.registration_page_year_select, registrationYear);
     }
 
-    async clickOnregistrationPageNewsletterCheckbox(): Promise<void> {
-
-        await this.clickOnElement(await this.registration_page_newsletter_checkbox);
-
+    async clickOnregistrationPageNewsletterCheckbox(testid: string): Promise<void> {
+        const reportingMessage = "Click on Registration Page news checkbox";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.registration_page_newsletter_checkbox);
     }
 
-    async clickOnregistrationPageSpecialOffersCheckbox(): Promise<void> {
-        await this.clickOnElement(await this.registration_page_special_offers_checkbox);
-
+    async clickOnregistrationPageSpecialOffersCheckbox(testid: string): Promise<void> {
+        const reportingMessage = "Click on Special Offers checkbox";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.registration_page_special_offers_checkbox);
     }
 
-    async enterSingupAddressFirstName(addressFirstName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_first_name_input, addressFirstName);
-
+    async enterSingupAddressFirstName(testid: string, addressFirstName: string): Promise<void> {
+        const reportingMessage = `${addressFirstName} set up as First Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_first_name_input, addressFirstName);
     }
 
-    async enterregistrationPageAddressLastName(addressLastName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_last_name_input, addressLastName);
-
+    async enterregistrationPageAddressLastName(testid: string, addressLastName: string): Promise<void> {
+        const reportingMessage = `${addressLastName} set up as Address Last Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_last_name_input, addressLastName);
     }
 
-    async enterregistrationPageAddressCompany(addressCompanyName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_company_input, addressCompanyName);
-
+    async enterregistrationPageAddressCompany(testid: string, addressCompanyName: string): Promise<void> {
+        const reportingMessage = `${addressCompanyName} set  up as Address Company Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_company_input, addressCompanyName)
     }
 
-    async enterregistrationPageAddress(addressName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_input, addressName);
-
+    async enterregistrationPageAddress(testid: string, addressName: string): Promise<void> {
+        const reportingMessage = `${addressName} set  up as Address Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_input, addressName)
     }
 
-    async enterregistrationPageSecondAddress(secondAddressName: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_second_address_input, secondAddressName);
+    async enterregistrationPageSecondAddress(testid: string, secondAddressName: string): Promise<void> {
+        const reportingMessage = `${secondAddressName} set up as Second Address Name`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_second_address_input, secondAddressName);
     }
 
-    async selectregistrationPageCountry(countryName: string): Promise<void> {
-        await this.selectDropdownOption(await this.registration_page_address_country_select, countryName);
-
+    async selectregistrationPageCountry(testid: string, countryName: string): Promise<void> {
+        const reportingMessage = `${countryName} set  up as Country Name`;
+        await executeWebAction(this.selectDropdownOption, testid, reportingMessage, await this.registration_page_address_country_select, countryName)
     }
 
-    async enterregistrationPageAddressState(registrationPageState: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_state_input, registrationPageState);
-
+    async enterregistrationPageAddressState(testid: string, registrationPageState: string): Promise<void> {
+        const reportingMessage = `${registrationPageState} set up as State`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_state_input, registrationPageState);
     }
 
-    async enterregistrationPageAddressCity(registrationPageCity: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_city_input, registrationPageCity);
-
+    async enterregistrationPageAddressCity(testid: string, registrationPageCity: string): Promise<void> {
+        const reportingMessage = `${registrationPageCity} set up as City`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_city_input, registrationPageCity);
     }
 
-    async enterregistrationPageAddressZipCode(registrationPageZipCode: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_zip_code_input, registrationPageZipCode);
+    async enterregistrationPageAddressZipCode(testid: string, registrationPageZipCode: string): Promise<void> {
+        const reportingMessage = `${registrationPageZipCode} set up as ZIP Code`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_zip_code_input, registrationPageZipCode);
     }
 
-    async enterregistrationPageAddressMobileNumber(mobileNumber: string): Promise<void> {
-        await this.typeIntoInputField(await this.registration_page_address_mobile_number_input, mobileNumber);
-
+    async enterregistrationPageAddressMobileNumber(testid: string, mobileNumber: string): Promise<void> {
+        const reportingMessage = `${mobileNumber} set  up as Mobile Number`;
+        await executeWebAction(this.typeIntoInputField, testid, reportingMessage, await this.registration_page_address_mobile_number_input, mobileNumber);
     }
 
-    async clickOnCreateAccountButton(): Promise<void> {
-        await this.clickOnElement(await this.registration_page_create_account_button);
-
+    async clickOnCreateAccountButton(testid: string): Promise<void> {
+        const reportingMessage = "Click on Create Account Button";
+        await executeWebAction(this.clickOnElement, testid, reportingMessage, await this.registration_page_create_account_button);
     }
 
-    async isAccountInformationTextVisible():Promise<void>{
-        const textObtained = await (await this.registration_page_account_information_text).getText();
-        expect(textObtained).to.be.equal(constants.assertionTexts.accountInformation, `${constants.errorMessages.chaiExpectErrorMessage} ${textObtained} - ${constants.assertionTexts.accountInformation}`);
+    async isAccountInformationTextVisible(testid: string): Promise<void> {
+        const reportingMessage = "Account Information Text Visible";
+        try {
+            const textObtained = await (await this.registration_page_account_information_text).getText();
+            expect(textObtained).to.be.equal(constants.assertionTexts.accountInformation, `${constants.errorMessages.chaiExpectErrorMessage} ${textObtained} - ${constants.assertionTexts.accountInformation}`);
+            reporter.addStep(testid, 'info', reportingMessage);
+        } catch (error) {
+            error.message = `${reportingMessage} - ${error.message}`;
+            reporter.addStep(testid, 'error', reportingMessage);
+            throw error;
+        }
     }
 
 }

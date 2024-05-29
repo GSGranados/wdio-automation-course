@@ -8,6 +8,10 @@
         "guardClauseError": "No Web Element Provided",
         "chaiExpectErrorMessage": "Expected Value is not the same as actual Value"
     },
+    "testscriptsConstatns":{
+        "dummyUsername": "automation-exercise-dumy",
+        "dummyDomain": "@mail.com"
+    },
     "assertionTexts":{
         "accountInformation": "ENTER ACCOUNT INFORMATION",
         "accountCreated": "ACCOUNT CREATED!",

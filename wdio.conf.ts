@@ -55,7 +55,7 @@ export const config: Options.Testrunner = {
         },
     ], 
 
-    logLevel: 'error',
+    logLevel: 'info',
 
     bail: 0,
 

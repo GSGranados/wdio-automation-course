@@ -14,6 +14,8 @@ allure-results/
 
 #rerun services
 rerun-logs/
+*.log
 
 #shell files
 *.sh
+*.err

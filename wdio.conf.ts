@@ -55,7 +55,7 @@ export const config: Options.Testrunner = {
         },
     ], 
 
-    logLevel: 'info',
+    logLevel: 'error',
 
     bail: 0,
 
@@ -84,7 +84,7 @@ export const config: Options.Testrunner = {
         snippets: true,
         source: true,
         strict: false,
-        tagExpression: '@automation-exercise',
+        tags: '@automation-exercise',
         timeout: 999999,
         ignoreUndefinedDefinitions: true
     },
